@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sunday Coffee</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>☕ Sunday Coffee</h2>
+    <marquee>🔥 Promo hari ini: Diskon 15% untuk semua pembelian varian Latte!</marquee>
+
+    <!-- CUSTOMER -->
+    <div class="card form-card">
+        <h3>Data Customer</h3>
+        <input type="text" id="nama" placeholder="Nama">
+        <input type="email" id="email" placeholder="Email">
+        <input type="text" id="hp" placeholder="No HP">
+        <select id="meja"></select>
+    </div>
+
+    <!-- SEARCH -->
+    <input type="text" id="search" placeholder="Cari menu..." onkeyup="searchMenu()">
+
+    <!-- MENU -->
+    <div id="menu"></div>
+
+    <button onclick="goToCart()" class="btn">Lihat Pesanan</button>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
