@@ -1,35 +1,33 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>Sunday Coffee</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mas Amba Coffeeshop</title>
+    <link rel="stylesheet" href="style.css"> <!-- cite: 7 -->
 </head>
 <body>
+    <div class="iphone-container"> <!-- cite: 7 -->
+        <div class="iphone-notch"></div> <!-- cite: 7 -->
+        <div class="iphone-screen" style="justify-content: center; text-align: center; background: linear-gradient(135deg, #4a3728 0%, #2b1f16 100%); color: white;"> <!-- cite: 7 -->
+            
+            <div style="margin-bottom: 30px;"> <!-- cite: 7 -->
+                <img src="assets/images/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=200'" style="width: 110px; height: 110px; border-radius: 50%; border: 3px solid #d4a373; object-fit: cover; margin-bottom: 15px;"> <!-- cite: 7 -->
+                <h1 style="font-size: 28px; font-weight: 800; color: #d4a373;">MAS AMBA</h1> <!-- cite: 7 -->
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 5px;">Premium Coffee & Barcode Order</p> <!-- cite: 7 -->
+            </div>
 
-<div class="container">
+            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; margin-bottom: 40px; backdrop-filter: blur(10px);"> <!-- cite: 7 -->
+                <span style="font-size: 24px;">📱☕</span> <!-- cite: 7 -->
+                <h3 style="font-size: 16px; margin: 10px 0 5px 0;">Pesan Dari Meja</h3> <!-- cite: 7 -->
+                <p style="font-size: 12px; opacity: 0.7; line-height: 1.5;">Pilih menu kesukaanmu langsung tanpa perlu antre lelah di depan kasir.</p> <!-- cite: 7 -->
+            </div>
 
-    <h2>☕ Sunday Coffee</h2>
-    <marquee>🔥 Promo hari ini: Diskon 15% untuk semua pembelian varian Latte!</marquee>
-
-    <!-- CUSTOMER -->
-    <div class="card form-card">
-        <h3>Data Customer</h3>
-        <input type="text" id="nama" placeholder="Nama">
-        <input type="email" id="email" placeholder="Email">
-        <input type="text" id="hp" placeholder="No HP">
-        <select id="meja"></select>
+            <a href="login.html" class="btn-primary" style="background-color: #d4a373; color: #4a3728;">Mulai Memesan</a> <!-- cite: 7 -->
+            
+        </div>
+        <div class="iphone-home-bar"></div> <!-- cite: 7 -->
     </div>
-
-    <!-- SEARCH -->
-    <input type="text" id="search" placeholder="Cari menu..." onkeyup="searchMenu()">
-
-    <!-- MENU -->
-    <div id="menu"></div>
-
-    <button onclick="goToCart()" class="btn">Lihat Pesanan</button>
-
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>

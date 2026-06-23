@@ -1,28 +1,49 @@
+<!-- payment.html -->
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>Pembayaran</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Mas Amba</title>
+    <link rel="stylesheet" href="style.css"> <!-- cite: 3 -->
 </head>
 <body>
+    <div class="iphone-container"> <!-- cite: 3 -->
+        <div class="iphone-notch"></div> <!-- cite: 3 -->
+        <div class="iphone-screen" style="justify-content: space-between;"> <!-- cite: 3 -->
+            
+            <div>
+                <div class="app-header"> <!-- cite: 3 -->
+                    <a href="cart.html" style="text-decoration: none; font-size: 20px;">⬅️</a> <!-- cite: 3 -->
+                    <h2 class="app-title" style="flex: 1; text-align: center; margin-right: 20px;">Metode Bayar</h2> <!-- cite: 3 -->
+                </div>
 
-<div class="container">
+                <p style="font-size: 13px; color: var(--text-muted); margin: 15px 0; text-align: center;">Bagaimana Anda ingin menyelesaikan pembayaran?</p> <!-- cite: 3 -->
 
-<h2>💳 Pembayaran</h2>
+                <!-- Opsi 1: Digital -->
+                <div class="method-card selected" id="method-digital" onclick="selectPaymentMethod('digital')"> <!-- cite: 3 -->
+                    <div style="font-size: 24px;">📱</div> <!-- cite: 3 -->
+                    <div style="flex: 1;"> <!-- cite: 3 -->
+                        <div style="font-size: 15px; font-weight: bold;">Bayar Instan Mandiri</div> <!-- cite: 3 -->
+                        <div style="font-size: 11px; color: var(--text-muted);">QRIS, ShopeePay, OVO, Dana (Langsung Beres)</div> <!-- cite: 3 -->
+                    </div>
+                </div>
 
-<div class="card" id="customerData"></div>
+                <!-- Opsi 2: Ke Kasir -->
+                <div class="method-card" id="method-kasir" onclick="selectPaymentMethod('kasir')"> <!-- cite: 3 -->
+                    <div style="font-size: 24px;">🏪</div> <!-- cite: 3 -->
+                    <div style="flex: 1;"> <!-- cite: 3 -->
+                        <div style="font-size: 15px; font-weight: bold;">Bayar di Kasir</div> <!-- cite: 3 -->
+                        <div style="font-size: 11px; color: var(--text-muted);">Tunai / Debit Fisik (Harus ke meja kasir)</div> <!-- cite: 3 -->
+                    </div>
+                </div>
+            </div>
 
-<div class="card">
-    <h3>Pilih Metode</h3>
-    <button onclick="payCash()">💵 Cash</button>
-    <button onclick="payTransfer()">🏦 Transfer</button>
-    <button onclick="payQRIS()">📱 QRIS</button>
+            <a href="success.html" class="btn-primary" onclick="clearCartAndFinish()">Konfirmasi & Kirim Pesanan</a> <!-- cite: 3 -->
 
-    <div id="paymentDetail"></div>
-</div>
-
-</div>
-
-<script src="script.js"></script>
+        </div>
+        <div class="iphone-home-bar"></div> <!-- cite: 3 -->
+    </div>
+    <script src="script.js"></script> <!-- cite: 3 -->
 </body>
 </html>

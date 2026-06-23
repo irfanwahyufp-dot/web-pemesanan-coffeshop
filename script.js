@@ -1,154 +1,134 @@
+// script.js
+let cart = JSON.parse(localStorage.getItem('coffee_cart')) || []; /* cite: 8 */
+let currentTable = localStorage.getItem('table_number') || "05"; /* cite: 8 */
+
+// Database Menu Berdasarkan Gambar di Folder Assets Anda
 const menuData = [
-    {name:"Espresso", price:15000, img:"assets/images/espresso.png"},
-    {name:"Americano", price:18000, img:"assets/images/americano.png"},
-    {name:"Cappuccino", price:20000, img:"assets/images/cappuccino.png"},
-    {name:"Caramel Macchiato", price:25000, img:"assets/images/Caramel Macchiato.png"},
-    {name:"Hazelnut Latte", price:26000, img:"assets/images/hazelnut.png"},
-    {name:"Kopi susu Gula Aren", price:22000, img:"assets/images/kopsu gula aren.png"},
-    {name:"Latte", price:22000, img:"assets/images/latte.png"},
-    {name:"Matcha Signature", price:23000, img:"assets/images/matcha signature.png"},
-    {name:"Red Velvet", price:25000, img:"assets/images/red velvet.png"},
-    {name:"Cookies & Cream", price:24000, img:"assets/images/cookies & cream.png"},
-    {name:"Ice Tea", price:10000, img:"assets/images/ice tea.png"},
-    {name:"Lemon Tea", price:12000, img:"assets/images/lemontea.png"}
+    { id: 'm1', name: 'Americano', price: 18000, img: 'assets/images/americano.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm2', name: 'Cappuccino', price: 24000, img: 'assets/images/cappuccino.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm3', name: 'Caramel Macchiato', price: 28000, img: 'assets/images/Caramel%20Macchiato.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm4', name: 'Espresso', price: 15000, img: 'assets/images/espresso.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm5', name: 'Hazelnut Latte', price: 26000, img: 'assets/images/hazelnut.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm6', name: 'Kopi Susu Gula Aren', price: 22000, img: 'assets/images/kopsu%20gula%20aren.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm7', name: 'Latte', price: 24000, img: 'assets/images/latte.png', category: 'coffee' }, /* cite: 8 */
+    { id: 'm8', name: 'Ice Tea', price: 10000, img: 'assets/images/ice%20tea.png', category: 'non-coffee' }, /* cite: 8 */
+    { id: 'm9', name: 'Lemon Tea', price: 14000, img: 'assets/images/lemontea.png', category: 'non-coffee' }, /* cite: 8 */
+    { id: 'm10', name: 'Matcha Signature', price: 26000, img: 'assets/images/matcha%20signature.png', category: 'non-coffee' }, /* cite: 8 */
+    { id: 'm11', name: 'Red Velvet', price: 26000, img: 'assets/images/red%20velvet.png', category: 'non-coffee' }, /* cite: 8 */
+    { id: 'm12', name: 'Cookies & Cream', price: 27000, img: 'assets/images/cookies%20&%20cream.png', category: 'non-coffee' } /* cite: 8 */
 ];
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartBadge(); /* cite: 8 */
+    if (document.getElementById('menu-container')) { renderMenu(); } /* cite: 8 */
+    if (document.getElementById('cart-items-container')) { renderCart(); } /* cite: 8 */
+    const tableDisp = document.getElementById('table-display'); /* cite: 8 */
+    if (tableDisp) tableDisp.innerText = `Meja ${currentTable}`; /* cite: 8 */
+});
 
-/* MENU */
-if(document.getElementById("menu")){
-    renderMenu(menuData);
+function renderMenu() {
+    const container = document.getElementById('menu-container'); /* cite: 8 */
+    if (!container) return; /* cite: 8 */
+    
+    let html = '<div class="menu-section-title">Coffee Base</div><div class="menu-grid">'; /* cite: 8 */
+    menuData.filter(m => m.category === 'coffee').forEach(item => { html += createMenuCard(item); }); /* cite: 8 */
+    
+    html += '</div><div class="menu-section-title">Non-Coffee & Blended</div><div class="menu-grid">'; /* cite: 8 */
+    menuData.filter(m => m.category === 'non-coffee').forEach(item => { html += createMenuCard(item); }); /* cite: 8 */
+    html += '</div>'; /* cite: 8 */
+    container.innerHTML = html; /* cite: 8 */
 }
 
-function renderMenu(data){
-    let html = "";
-    data.forEach((item,index)=>{
-        let found = cart.find(c=>c.name===item.name);
-        let qty = found ? found.qty : 0;
-
-        html += `
+function createMenuCard(item) {
+    return `
         <div class="menu-card">
-            <img src="${item.img}">
-            <h4>${item.name}</h4>
-            <p>Rp ${item.price}</p>
-            <div class="qty">
-                <button onclick="minus(${index})">-</button>
-                ${qty}
-                <button onclick="plus(${index})">+</button>
+            <img src="${item.img}" class="menu-thumb" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150'" alt="${item.name}">
+            <div style="flex:1;">
+                <div style="font-size:15px; font-weight:600;">${item.name}</div>
+                <div style="color:var(--accent-color); font-weight:700; margin-top:4px;">Rp ${item.price.toLocaleString('id-ID')}</div>
             </div>
-        </div>`;
-    });
-    document.getElementById("menu").innerHTML = html;
+            <button class="add-btn" onclick="addToCart('${item.id}')">+</button>
+        </div>`; /* cite: 8 */
 }
 
-/* QTY */
-function plus(i){
-    let item = menuData[i];
-    let found = cart.find(c=>c.name===item.name);
-
-    if(found) found.qty++;
-    else cart.push({...item, qty:1});
-
-    save();
+function addToCart(id) {
+    const item = menuData.find(m => m.id === id); /* cite: 8 */
+    const existing = cart.find(c => c.id === id); /* cite: 8 */
+    if (existing) { existing.qty++; } else { cart.push({ ...item, qty: 1 }); } /* cite: 8 */
+    saveCart(); /* cite: 8 */
+    updateCartBadge(); /* cite: 8 */
 }
 
-function minus(i){
-    let item = menuData[i];
-    let found = cart.find(c=>c.name===item.name);
-
-    if(found){
-        found.qty--;
-        if(found.qty<=0) cart = cart.filter(c=>c.name!==item.name);
-    }
-    save();
-}
-
-function save(){
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderMenu(menuData);
-}
-
-/* SEARCH */
-function searchMenu(){
-    let key = document.getElementById("search").value.toLowerCase();
-    let filtered = menuData.filter(m=>m.name.toLowerCase().includes(key));
-    renderMenu(filtered);
-}
-
-/* MEJA */
-if(document.getElementById("meja")){
-    let meja = document.getElementById("meja");
-    for(let i=1;i<=10;i++){
-        let o = document.createElement("option");
-        o.value="A"+i;
-        o.text="Meja A"+i;
-        meja.appendChild(o);
+function updateCartBadge() {
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0); /* cite: 8 */
+    const badge = document.getElementById('floating-badge'); /* cite: 8 */
+    const amountDisp = document.getElementById('floating-amount'); /* cite: 8 */
+    if (badge) badge.innerText = totalQty; /* cite: 8 */
+    if (amountDisp) {
+        const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0); /* cite: 8 */
+        amountDisp.innerText = `Rp ${totalAmount.toLocaleString('id-ID')}`; /* cite: 8 */
     }
 }
 
-/* CART PAGE */
-if(document.getElementById("cartItems")){
-    let html="", total=0;
+function saveCart() { localStorage.setItem('coffee_cart', JSON.stringify(cart)); } /* cite: 8 */
 
-    cart.forEach(item=>{
-        total += item.price*item.qty;
-        html += `<div class="item">${item.name} x${item.qty}</div>`;
+function renderCart() {
+    const container = document.getElementById('cart-items-container'); /* cite: 8 */
+    if (!container) return; /* cite: 8 */
+    if (cart.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding: 40px 0; color:#888;">Keranjang kamu kosong.</div>'; /* cite: 8 */
+        updateSummary(0); /* cite: 8 */
+        return; /* cite: 8 */
+    }
+    let html = ''; /* cite: 8 */
+    let subtotal = 0; /* cite: 8 */
+    cart.forEach(item => {
+        subtotal += item.price * item.qty; /* cite: 8 */
+        html += `
+            <div class="cart-item">
+                <div>
+                    <div style="font-weight:600;">${item.name}</div>
+                    <div style="color:var(--accent-color); font-weight:700;">Rp ${(item.price * item.qty).toLocaleString('id-ID')}</div>
+                </div>
+                <div class="qty-counter">
+                    <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                </div>
+            </div>`; /* cite: 8 */
     });
-
-    document.getElementById("cartItems").innerHTML = html;
-    document.getElementById("total").innerText = "Total: Rp "+total;
+    container.innerHTML = html; /* cite: 8 */
+    updateSummary(subtotal); /* cite: 8 */
 }
 
-/* NAVIGASI */
-function goToCart(){
-    let data = {
-        nama: document.getElementById("nama").value,
-        email: document.getElementById("email").value,
-        hp: document.getElementById("hp").value,
-        meja: document.getElementById("meja").value
-    };
-
-    localStorage.setItem("customer", JSON.stringify(data));
-    window.location.href="cart.html";
+function changeQty(id, delta) {
+    const item = cart.find(c => c.id === id); /* cite: 8 */
+    if (!item) return; /* cite: 8 */
+    item.qty += delta; /* cite: 8 */
+    if (item.qty <= 0) { cart = cart.filter(c => c.id !== id); } /* cite: 8 */
+    saveCart(); renderCart(); updateCartBadge(); /* cite: 8 */
 }
 
-function goToPayment(){
-    window.location.href="payment.html";
+function updateSummary(subtotal) {
+    const tax = subtotal * 0.1; /* cite: 8 */
+    const total = subtotal + tax; /* cite: 8 */
+    if (document.getElementById('subtotal-val')) document.getElementById('subtotal-val').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`; /* cite: 8 */
+    if (document.getElementById('tax-val')) document.getElementById('tax-val').innerText = `Rp ${tax.toLocaleString('id-ID')}`; /* cite: 8 */
+    if (document.getElementById('total-val')) document.getElementById('total-val').innerText = `Rp ${total.toLocaleString('id-ID')}`; /* cite: 8 */
 }
 
-/* PAYMENT */
-if(document.getElementById("customerData")){
-    let c = JSON.parse(localStorage.getItem("customer"));
-    document.getElementById("customerData").innerHTML =
-    `<b>${c.nama}</b><br>Meja: ${c.meja}`;
+function selectPaymentMethod(method) {
+    document.querySelectorAll('.method-card').forEach(card => card.classList.remove('selected')); /* cite: 8 */
+    document.getElementById(`method-${method}`).classList.add('selected'); /* cite: 8 */
+    localStorage.setItem('payment_method', method); /* cite: 8 */
 }
 
-function payCash(){
-    document.getElementById("paymentDetail").innerHTML = `
-    <p>Silakan bayar di kasir ☕</p>
-    <button onclick="finishOrder()" class="btn">Selesai</button>
-    `;
+function setTableAndProceed() {
+    const input = document.getElementById('table-input').value; /* cite: 8 */
+    if(input) {
+        localStorage.setItem('table_number', input); /* cite: 8 */
+        window.location.href = 'kasir.html'; /* cite: 8 */
+    } else { alert('Silakan masukkan nomor meja Anda'); } /* cite: 8 */
 }
 
-function payTransfer(){
-    document.getElementById("paymentDetail").innerHTML = `
-    <p><b>Bank BNI</b></p>
-    <p>1813715179</p>
-    <p>a.n Sunday Coffee</p>
-    <button onclick="finishOrder()" class="btn">Saya sudah bayar</button>
-    `;
-}
-
-function payQRIS(){
-    document.getElementById("paymentDetail").innerHTML = `
-    <p>Scan QRIS:</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SundayCoffeeQRIS">
-    <br>
-    <button onclick="finishOrder()" class="btn">Selesai</button>
-    `;
-}
-
-function finishOrder(){
-    localStorage.removeItem("cart"); // reset cart
-    window.location.href = "success.html";
-}
+function clearCartAndFinish() { localStorage.removeItem('coffee_cart'); } /* cite: 8 */
