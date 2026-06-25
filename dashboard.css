@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #1e293b;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR STYLE --- */
+.sidebar {
+    width: 260px;
+    background-color: #1e293b;
+    color: white;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.brand-section h2 {
+    font-size: 16px; 
+    font-weight: 800;
+}
+
+.brand-section p {
+    font-size: 11px; 
+    color: #64748b;
+}
+
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #8c4f2b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+}
+
+.menu-link.active, .menu-link:hover {
+    background-color: #8c4f2b;
+    color: white;
+}
+
+.sidebar-footer {
+    font-size: 11px; 
+    color: #475569; 
+    text-align: center;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    margin-left: 260px; /* Jarak pas dari Lebar Sidebar */
+    overflow-y: auto;
+}
+
+.header-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.header-dashboard h1 {
+    font-size: 26px; 
+    font-weight: 800; 
+    letter-spacing: -0.5px;
+}
+
+.header-dashboard .subtitle {
+    color: #64748b; 
+    font-size: 14px; 
+    margin-top: 4px;
+}
+
+.server-status {
+    text-align: right;
+}
+
+.server-status #live-clock {
+    font-weight: 700;
+}
+
+.status-indicator {
+    font-size: 13px; 
+    color: #10b981; 
+    font-weight: 600;
+}
+
+/* --- STATS GRID --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+
+.stat-card p { 
+    font-size: 13px; 
+    color: #64748b; 
+    font-weight: 600; 
+}
+
+.stat-card h3 { 
+    font-size: 24px; 
+    color: #0f172a; 
+    font-weight: 800; 
+    margin-top: 6px; 
+}
+
+.txt-success { color: #10b981 !important; }
+.txt-brand { color: #8c4f2b !important; font-size: 18px !important; margin-top: 12px !important; }
+
+/* --- LIVE ORDER MONITOR --- */
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.live-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.order-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.order-card.priority {
+    border-left: 5px solid #8c4f2b;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.table-badge {
+    background: #fffaf7;
+    color: #8c4f2b;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    border: 1px solid #f5ebe6;
+}
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 30px;
+}
+
+.status-proses { background: #fef3c7; color: #d97706; }
+.status-siap { background: #e0f2fe; color: #0284c7; }
+
+.item-list {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.item-list li {
+    font-size: 14px;
+    color: #334155;
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-row {
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 14px; 
+    margin-bottom: 16px; 
+    font-weight: 700;
+}
+
+.total-row .price {
+    color: #8c4f2b;
+}
+
+/* --- BUTTONS --- */
+.btn-action {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.btn-serve { background-color: #8c4f2b; color: white; }
+.btn-serve:hover { background-color: #593119; }
+.btn-done { background-color: #10b981; color: white; }
+.btn-done:hover { background-color: #059669; }
+
+/* ANIMASI PULSE */
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* --- FITUR SPA TAB CONTENT --- */
+.tab-content {
+    display: none; /* Sembunyikan konten secara default */
+}
+
+.tab-content.active {
+    display: block; /* Tampilkan tab yang aktif saja */
+}
+
+/* --- TABEL DATA STYLE --- */
+.card-table-container {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    padding: 16px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table td {
+    padding: 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+}
+
+.menu-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}

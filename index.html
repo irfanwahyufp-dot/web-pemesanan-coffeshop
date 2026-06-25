@@ -1,33 +1,59 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mas Amba Coffeeshop</title>
-    <link rel="stylesheet" href="style.css"> <!-- cite: 7 -->
+    <title>Mas Amba - Sistem Pemesanan Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="iphone-container"> <!-- cite: 7 -->
-        <div class="iphone-notch"></div> <!-- cite: 7 -->
-        <div class="iphone-screen" style="justify-content: center; text-align: center; background: linear-gradient(135deg, #4a3728 0%, #2b1f16 100%); color: white;"> <!-- cite: 7 -->
-            
-            <div style="margin-bottom: 30px;"> <!-- cite: 7 -->
-                <img src="assets/images/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=200'" style="width: 110px; height: 110px; border-radius: 50%; border: 3px solid #d4a373; object-fit: cover; margin-bottom: 15px;"> <!-- cite: 7 -->
-                <h1 style="font-size: 28px; font-weight: 800; color: #d4a373;">MAS AMBA</h1> <!-- cite: 7 -->
-                <p style="font-size: 14px; opacity: 0.8; margin-top: 5px;">Premium Coffee & Barcode Order</p> <!-- cite: 7 -->
+
+    <div class="mobile-container">
+        <div class="scroll-content">
+            <!-- Header Mas Amba -->
+            <div class="header-kedai">
+                <img src="assets/images/logo.jpg" alt="Logo Mas Amba" class="logo-app" onerror="this.src='https://placehold.co/100x100?text=MA'">
+                <div class="header-text">
+                    <h2>Mas Amba</h2>
+                    <p>🟢 Dine-In · Meja 01</p>
+                </div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; margin-bottom: 40px; backdrop-filter: blur(10px);"> <!-- cite: 7 -->
-                <span style="font-size: 24px;">📱☕</span> <!-- cite: 7 -->
-                <h3 style="font-size: 16px; margin: 10px 0 5px 0;">Pesan Dari Meja</h3> <!-- cite: 7 -->
-                <p style="font-size: 12px; opacity: 0.7; line-height: 1.5;">Pilih menu kesukaanmu langsung tanpa perlu antre lelah di depan kasir.</p> <!-- cite: 7 -->
+            <!-- Promo Banner -->
+            <div class="promo-banner">
+                <div class="promo-badge">PROMO HARI INI</div>
+                <h3>Diskon PB1 Kopi Susu Aren<br>Spesial Meja!</h3>
+                <p>Pesan langsung dari gawai Anda, hidangan siap meluncur ke meja.</p>
             </div>
 
-            <a href="login.html" class="btn-primary" style="background-color: #d4a373; color: #4a3728;">Mulai Memesan</a> <!-- cite: 7 -->
+            <!-- Kategori Tabs -->
+            <div class="kategori-tabs">
+                <button class="tab-btn active" onclick="filterKategori('semua', this)">📋 Semua</button>
+                <button class="tab-btn" onclick="filterKategori('minuman', this)">☕ Minuman</button>
+                <button class="tab-btn" onclick="filterKategori('snack', this)">🍟 Snack</button>
+            </div>
+
+            <h3 style="font-size: 15px; margin-bottom: 16px; color: #1e293b; font-weight: 800;">✨ Menu Rekomendasi</h3>
             
+            <!-- Grid Menu Dinamis -->
+            <div id="menu-container"></div>
         </div>
-        <div class="iphone-home-bar"></div> <!-- cite: 7 -->
+
+        <!-- Floating Cart Bar -->
+        <div id="floating-cart" class="floating-cart" style="display: none;">
+            <div>🛒 <span id="badge-count" style="font-weight: bold;">0</span> Item Terpilih</div>
+            <a href="cart.html" class="view-cart-btn">Lihat Keranjang →</a>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item active"><span>🏠</span>Home</a>
+            <a href="cart.html" class="nav-item"><span>🛒</span>Keranjang</a>
+            <a href="success.html" class="nav-item"><span>📋</span>Status</a>
+        </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

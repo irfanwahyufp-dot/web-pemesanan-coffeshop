@@ -1,49 +1,151 @@
-<!-- payment.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran - Mas Amba</title>
-    <link rel="stylesheet" href="style.css"> <!-- cite: 3 -->
+    <title>Mas amba - pembayaran</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="iphone-container"> <!-- cite: 3 -->
-        <div class="iphone-notch"></div> <!-- cite: 3 -->
-        <div class="iphone-screen" style="justify-content: space-between;"> <!-- cite: 3 -->
+
+    <div class="mobile-container">
+        <div class="scroll-content">
+            <h3 style="margin-bottom: 20px; color: #2c3e50; font-size: 18px; font-weight: 800;">💳 Metode Pembayaran</h3>
             
-            <div>
-                <div class="app-header"> <!-- cite: 3 -->
-                    <a href="cart.html" style="text-decoration: none; font-size: 20px;">⬅️</a> <!-- cite: 3 -->
-                    <h2 class="app-title" style="flex: 1; text-align: center; margin-right: 20px;">Metode Bayar</h2> <!-- cite: 3 -->
-                </div>
-
-                <p style="font-size: 13px; color: var(--text-muted); margin: 15px 0; text-align: center;">Bagaimana Anda ingin menyelesaikan pembayaran?</p> <!-- cite: 3 -->
-
-                <!-- Opsi 1: Digital -->
-                <div class="method-card selected" id="method-digital" onclick="selectPaymentMethod('digital')"> <!-- cite: 3 -->
-                    <div style="font-size: 24px;">📱</div> <!-- cite: 3 -->
-                    <div style="flex: 1;"> <!-- cite: 3 -->
-                        <div style="font-size: 15px; font-weight: bold;">Bayar Instan Mandiri</div> <!-- cite: 3 -->
-                        <div style="font-size: 11px; color: var(--text-muted);">QRIS, ShopeePay, OVO, Dana (Langsung Beres)</div> <!-- cite: 3 -->
-                    </div>
-                </div>
-
-                <!-- Opsi 2: Ke Kasir -->
-                <div class="method-card" id="method-kasir" onclick="selectPaymentMethod('kasir')"> <!-- cite: 3 -->
-                    <div style="font-size: 24px;">🏪</div> <!-- cite: 3 -->
-                    <div style="flex: 1;"> <!-- cite: 3 -->
-                        <div style="font-size: 15px; font-weight: bold;">Bayar di Kasir</div> <!-- cite: 3 -->
-                        <div style="font-size: 11px; color: var(--text-muted);">Tunai / Debit Fisik (Harus ke meja kasir)</div> <!-- cite: 3 -->
-                    </div>
-                </div>
+            <div style="background: linear-gradient(135deg, #fdfaf7, #f7eee9); padding: 18px; border-radius: 16px; text-align: center; margin-bottom: 24px; border: 1px solid #f5ebe6;">
+                <p style="font-size: 12px; color: #7f8c8d; font-weight: 600;">TOTAL TAGIHAN (MEJA 01)</p>
+                <h2 id="tagihan-display" style="color: #8c4f2b; font-size: 24px; font-weight: 800; margin-top: 4px;">Rp 0</h2>
             </div>
 
-            <a href="success.html" class="btn-primary" onclick="clearCartAndFinish()">Konfirmasi & Kirim Pesanan</a> <!-- cite: 3 -->
+            <!-- Opsi Pembayaran Modern -->
+            <div class="method-card selected" id="opt-qris" onclick="pilihMetode('qris')">
+                <span>📱 <strong>QRIS</strong> (Gopay, OVO, ShopeePay)</span>
+                <input type="radio" name="pay" id="rad-qris" checked>
+            </div>
 
+            <div class="method-card" id="opt-dana" onclick="pilihMetode('dana')">
+                <span>💎 <strong>DANA</strong> Instant Payment</span>
+                <input type="radio" name="pay" id="rad-dana">
+            </div>
+
+            <div class="method-card" id="opt-kasir" onclick="pilihMetode('kasir')">
+                <span>🏪 <strong>Bayar di Kasir</strong> (Tunai/Debit)</span>
+                <input type="radio" name="pay" id="rad-kasir">
+            </div>
+
+            <!-- AREA GENERATOR BARCODE / QRIS DINAMIS -->
+            <div id="qr-area" class="qr-display-box" style="display: none;">
+                <p id="qr-title" style="font-size: 13px; font-weight: 700; color: #2c3e50; margin-bottom: 12px;"></p>
+                <div style="background: white; padding: 12px; display: inline-block; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <img id="qr-image" src="" alt="Barcode Sistem" style="width: 160px; height: 160px; display: block;">
+                </div>
+                <p class="timer-text" id="timer-wrapper">Sisa Waktu Pembayaran: <span id="countdown">05:00</span></p>
+            </div>
+
+            <button class="btn-tambah" style="margin-top: 24px; padding: 16px; font-size: 14px; background-color: #27ae60; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);" onclick="prosesSelesai()">
+                Konfirmasi Pembayaran Selesai ✔
+            </button>
         </div>
-        <div class="iphone-home-bar"></div> <!-- cite: 3 -->
+
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item"><span>🏠</span>Home</a>
+            <a href="cart.html" class="nav-item"><span>🛒</span>Keranjang</a>
+            <a href="success.html" class="nav-item"><span>📋</span>Status</a>
+        </div>
     </div>
-    <script src="script.js"></script> <!-- cite: 3 -->
+
+    <script>
+        const total = localStorage.getItem('total_bayar_mas_amba') || 0;
+        document.getElementById('tagihan-display').innerText = `Rp ${parseInt(total).toLocaleString('id-ID')}`;
+
+        let timerInterval;
+
+        function startTimer(duration) {
+            clearInterval(timerInterval);
+            let timer = duration, minutes, seconds;
+            timerInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.getElementById('countdown').innerText = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    alert("Sesi pembayaran QRIS kedaluwarsa. Sila ulangi.");
+                    window.location.href = 'cart.html';
+                }
+            }, 1000);
+        }
+
+        function pilihMetode(jenis) {
+            document.querySelectorAll('.method-card').forEach(el => el.classList.remove('selected'));
+            
+            if (jenis === 'qris') {
+                document.getElementById('opt-qris').classList.add('selected');
+                document.getElementById('rad-qris').checked = true;
+                document.getElementById('qr-area').style.display = 'block';
+                document.getElementById('timer-wrapper').style.display = 'block';
+                document.getElementById('qr-title').innerText = "Silakan Scan QRIS Sunday Coffee:";
+                document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=SundayCoffeeQRIS-Total-${total}`;
+                startTimer(300); 
+            } 
+            else if (jenis === 'dana') {
+                document.getElementById('opt-dana').classList.add('selected');
+                document.getElementById('rad-dana').checked = true;
+                document.getElementById('qr-area').style.display = 'none';
+                clearInterval(timerInterval);
+                
+                alert("Membuka aplikasi DANA... Mengalihkan transaksi secara aman.");
+                setTimeout(() => {
+                    alert("Otentikasi E-Wallet Berhasil via DANA API!");
+                    prosesSelesai();
+                }, 1200);
+            } 
+            else if (jenis === 'kasir') {
+                document.getElementById('opt-kasir').classList.add('selected');
+                document.getElementById('rad-kasir').checked = true;
+                document.getElementById('qr-area').style.display = 'block';
+                document.getElementById('timer-wrapper').style.display = 'none'; // Kasir tidak butuh countdown
+                document.getElementById('qr-title').innerText = "Tunjukkan Barcode ini ke Kasir:";
+                document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=SundayCoffee-NotaMeja01-Total-${total}`;
+                clearInterval(timerInterval);
+            }
+        }
+
+        function prosesSelesai() {
+    // 1. Ambil data keranjang saat ini dan total harganya
+    const itemKeranjang = JSON.parse(localStorage.getItem('keranjang_mas_amba')) || [];
+    const totalBayar = localStorage.getItem('total_bayar_mas_amba') || 0;
+
+    if (itemKeranjang.length > 0) {
+        // 2. Ambil antrean pesanan kasir yang sudah ada, atau buat array baru jika kosong
+        let antreanKasir = JSON.parse(localStorage.getItem('antrean_kasir_amba')) || [];
+
+        // 3. Buat objek pesanan baru yang unik dengan ID berbasis waktu
+        const pesananBaru = {
+            id: 'amba-' + Date.now(),
+            meja: '01', // Default meja pindaian awal
+            items: itemKeranjang,
+            total: parseInt(totalBayar),
+            status: 'proses',
+            waktu: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+        };
+
+        // 4. Masukkan ke dalam antrean teratas
+        antreanKasir.unshift(pesananBaru);
+        localStorage.setItem('antrean_kasir_amba', JSON.stringify(antreanKasir));
+    }
+
+    // 5. Bersihkan keranjang belanja pelanggan, lalu lempar ke halaman sukses
+    localStorage.removeItem('keranjang_mas_amba');
+    window.location.href = 'success.html';
+}
+
+        // Jalankan default pilihan pertama
+        pilihMetode('qris');
+    </script>
 </body>
 </html>

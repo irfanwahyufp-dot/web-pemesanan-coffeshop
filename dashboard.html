@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mas Amba - Dashboard Kasir & Barista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGASI -->
+    <div class="sidebar">
+        <div>
+            <div class="brand-section">
+                <div class="brand-logo">MA</div>
+                <div>
+                    <h2>Mas Amba</h2>
+                    <p>Kasir Panel v1.2</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#" class="menu-link active" onclick="switchTab(event, 'live-orders')"><span>📊</span> Live Orders</a>
+                <a href="#" class="menu-link" onclick="switchTab(event, 'riwayat')"><span>📋</span> Riwayat Transaksi</a>
+                <a href="#" class="menu-link" onclick="switchTab(event, 'manajemen-menu')"><span>☕</span> Manajemen Menu</a>
+                <a href="#" class="menu-link" onclick="switchTab(event, 'pengaturan')"><span>⚙️</span> Pengaturan Sistem</a>
+            </nav>
+        </div>
+        <p class="sidebar-footer">© 2026 Mas Amba Coffee</p>
+    </div>
+
+    <!-- AREA KONTEN UTAMA -->
+    <div class="main-content">
+        <div class="header-dashboard">
+            <div>
+                <h1 id="page-title">Ringkasan Toko</h1>
+                <p class="subtitle" id="page-subtitle">Pantau antrean pesanan aktif kedai hari ini.</p>
+            </div>
+            <div class="server-status">
+                <p id="live-clock">Memuat waktu...</p>
+                <p class="status-indicator">● Server Terhubung</p>
+            </div>
+        </div>
+
+        <!-- ================= TAB 1: LIVE ORDERS ================= -->
+        <div id="content-live-orders" class="tab-content active">
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p>TOTAL PENDAPATAN</p>
+                    <h3 class="txt-success" id="stat-pendapatan">Rp 0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>PESANAN AKTIF</p>
+                    <h3 id="stat-aktif">0 Antrean</h3>
+                </div>
+                <div class="stat-card">
+                    <p>TERSEDIA / DINE-IN</p>
+                    <h3>12 Meja</h3>
+                </div>
+                <div class="stat-card">
+                    <p>PRODUK TERLARIS</p>
+                    <h3 class="txt-brand">Kopi Susu Aren</h3>
+                </div>
+            </div>
+
+            <h3 class="section-title"><span class="live-indicator"></span> Antrean Pesanan Masuk</h3>
+            <div class="order-grid" id="live-order-container">
+                <!-- Data Pesanan Masuk Mas Amba Di-render via JS -->
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: RIWAYAT TRANSAKSI ================= -->
+        <div id="content-riwayat" class="tab-content">
+            <div class="card-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Pesanan</th>
+                            <th>Waktu</th>
+                            <th>No. Meja</th>
+                            <th>Detail Menu</th>
+                            <th>Total Bayar</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="riwayat-table-body">
+                        <!-- Data riwayat closing/arsip masuk ke sini -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: MANAJEMEN MENU ================= -->
+        <div id="content-manajemen-menu" class="tab-content">
+            <div class="menu-management-header">
+                <h3>Daftar Menu Kedai Mas Amba</h3>
+                <button class="btn-action btn-serve" style="width: auto; padding: 10px 20px;">+ Tambah Menu Baru</button>
+            </div>
+            <div class="card-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga Satuan</th>
+                            <th>Status Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kopi Susu Aren</strong></td>
+                            <td>Coffee</td>
+                            <td>Rp 15.000</td>
+                            <td><span class="status-badge status-siap">Tersedia</span></td>
+                            <td><button class="btn-action btn-serve" style="padding: 4px 10px; font-size:11px;">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Matcha Signature</strong></td>
+                            <td>Non-Coffee</td>
+                            <td>Rp 20.000</td>
+                            <td><span class="status-badge status-siap">Tersedia</span></td>
+                            <td><button class="btn-action btn-serve" style="padding: 4px 10px; font-size:11px;">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Croissant Chocolate</strong></td>
+                            <td>Pastry</td>
+                            <td>Rp 18.000</td>
+                            <td><span class="status-badge status-proses" style="background:#fee2e2; color:#ef4444;">Habis</span></td>
+                            <td><button class="btn-action btn-serve" style="padding: 4px 10px; font-size:11px;">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: PENGATURAN SISTEM ================= -->
+        <div id="content-pengaturan" class="tab-content">
+            <div class="stat-card" style="max-width: 600px; padding: 30px;">
+                <h3 style="font-size: 18px; margin-bottom: 20px;">Konfigurasi Printer & Kasir</h3>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-size:13px; font-weight:700; margin-bottom:6px;">Nama Kedai / Outlet</label>
+                    <input type="text" value="Mas Amba Coffee - Cabang Semarang" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; font-size:13px; font-weight:700; margin-bottom:6px;">Pajak PB1 / Restoran</label>
+                    <input type="text" value="10%" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+                </div>
+                <button class="btn-action btn-serve" onclick="alert('Pengaturan berhasil disimpan!')">Simpan Perubahan</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
